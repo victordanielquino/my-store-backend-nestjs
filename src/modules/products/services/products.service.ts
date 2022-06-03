@@ -37,7 +37,7 @@ export class ProductsService {
     this.products.push(newProduct);
     return newProduct;
   }
-  // METODO UPDATE:
+  
   update(id: number, payload: UpdateProductDto) {
     const product = this.findById(id);
     if (product) {
@@ -50,7 +50,7 @@ export class ProductsService {
     }
     return null;
   }
-  // METODO DELETE:
+
   remove(id: number) {
     const product = this.findById(id);
     if (!product)
