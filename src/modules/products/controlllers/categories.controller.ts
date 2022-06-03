@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 
 @Controller('categories')
 export class CategoriesController {
@@ -17,6 +17,6 @@ export class CategoriesController {
 
   @Post()
   create(@Body() payload: any) {
-    return {message: 'action create categories:', payload,}
+    return { message: 'action create categories:', payload };
   }
 }

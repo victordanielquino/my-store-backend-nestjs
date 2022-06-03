@@ -6,21 +6,23 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,  // se llegan atributos que no estan definidos en el dtos, los ignora y continua
-    forbidNonWhitelisted: true, // alerta de atributos que no esta definido en el esquema de los dtos
-  }))
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // se llegan atributos que no estan definidos en el dtos, los ignora y continua
+      forbidNonWhitelisted: true, // alerta de atributos que no esta definido en el esquema de los dtos
+    }),
+  );
 
   const config = new DocumentBuilder()
-      .setTitle('API')
-      .setDescription('TIENDA VIRTUAL')
-      .setVersion('1.0')
-      //.addTag('cats')
-      .build();
+    .setTitle('API')
+    .setDescription('TIENDA VIRTUAL')
+    .setVersion('1.0')
+    //.addTag('cats')
+    .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
   // habilitar acceso a todos CORS:
   app.enableCors();
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

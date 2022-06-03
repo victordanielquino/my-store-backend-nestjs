@@ -1,58 +1,57 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    ParseIntPipe,
-    Post,
-    Put,
-    Query
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
 } from '@nestjs/common';
-import {UsersService} from "../services/users.service";
-import {CreateUserDto, UpdateUserDto} from "../dtos/users.dtos";
+import { UsersService } from '../services/users.service';
+import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
 
 @Controller('users')
 export class UsersController {
+  constructor(private userService: UsersService) {}
 
-    constructor(private userService: UsersService) {}
+  @Get()
+  @HttpCode(HttpStatus.ACCEPTED)
+  getUsersAll(@Query('limit') limit = 0, @Query('offset') offset = 0) {
+    return this.userService.findAll();
+  }
 
-    @Get()
-    @HttpCode(HttpStatus.ACCEPTED)
-    getUsersAll(
-        @Query('limit') limit = 0,
-        @Query('offset') offset = 0,
-    ) {
-        return this.userService.findAll();
-    }
+  @Get(':userId')
+  @HttpCode(HttpStatus.ACCEPTED)
+  getUserById(@Param('userId', ParseIntPipe) userId: number) {
+    return this.userService.findById(userId);
+  }
 
-    @Get(':userId')
-    @HttpCode(HttpStatus.ACCEPTED)
-    getUserById(@Param('userId', ParseIntPipe) userId: number){
-        return this.userService.findById(userId);
-    }
+  @Post()
+  create(@Body() payload: CreateUserDto) {
+    return this.userService.create(payload);
+  }
 
-    @Post()
-    create(@Body() payload: CreateUserDto) {
-        return this.userService.create(payload);
-    }
+  @Put(':userId')
+  update(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Body() payload: UpdateUserDto,
+  ) {
+    return this.userService.update(userId, payload);
+  }
 
-    @Put(':userId')
-    update(@Param('userId', ParseIntPipe) userId: number, @Body() payload: UpdateUserDto) {
-        return this.userService.update(userId, payload);
-    }
+  @Delete(':userId')
+  delete(@Param('userId', ParseIntPipe) userId: number) {
+    return this.userService.remove(userId);
+  }
 
-    @Delete(':userId')
-    delete(@Param('userId', ParseIntPipe) userId: number) {
-        return this.userService.remove(userId);
-    }
-
-    // ORDERS:
-    @Get(':userId/orders')
-    @HttpCode(HttpStatus.ACCEPTED)
-    getOrders(@Param('userId', ParseIntPipe) userId: number){
-        return this.userService.getOrderByUserId(userId);
-    }
+  // ORDERS:
+  @Get(':userId/orders')
+  @HttpCode(HttpStatus.ACCEPTED)
+  getOrders(@Param('userId', ParseIntPipe) userId: number) {
+    return this.userService.getOrderByUserId(userId);
+  }
 }

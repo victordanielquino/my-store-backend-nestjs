@@ -1,5 +1,5 @@
 import { Module, HttpModule, HttpService } from '@nestjs/common';
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
 import { AppService } from './app.service';
@@ -7,37 +7,39 @@ import { AppController } from './app.controller';
 import { UsersModule } from './modules/users/users.module';
 import { ProductsModule } from './modules/products/products.module';
 import { DatabaseModule } from './modules/database/database.module';
-import { enviroments } from "./enviroments";
+import { enviroments } from './enviroments';
 import config from './config';
 
 @Module({
   imports: [
-      ConfigModule.forRoot({
-        envFilePath: enviroments[process.env.NODE_ENV] || '.env',
-          load: [config],
-        isGlobal: true,
-          validationSchema: Joi.object({
-              API_KEY: Joi.number().required(),
-              DATABASE_NAME: Joi.string().required(),
-              DATABASE_PORT: Joi.number().required(),
-          })
+    ConfigModule.forRoot({
+      envFilePath: enviroments[process.env.NODE_ENV] || '.env',
+      load: [config],
+      isGlobal: true,
+      validationSchema: Joi.object({
+        API_KEY: Joi.number().required(),
+        DATABASE_NAME: Joi.string().required(),
+        DATABASE_PORT: Joi.number().required(),
       }),
-      HttpModule,
-      UsersModule,
-      ProductsModule,
-      DatabaseModule
+    }),
+    HttpModule,
+    UsersModule,
+    ProductsModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [
-      AppService,
+    AppService,
     {
       provide: 'TASKS',
       useFactory: async (http: HttpService) => {
-        const tasks = await http.get('https://jsonplaceholder.typicode.com/todos').toPromise();
+        const tasks = await http
+          .get('https://jsonplaceholder.typicode.com/todos')
+          .toPromise();
         return tasks.data;
       },
-      inject: [HttpService]
-    }
+      inject: [HttpService],
+    },
   ],
 })
 export class AppModule {}

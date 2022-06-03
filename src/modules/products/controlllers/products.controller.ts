@@ -10,7 +10,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ProductsService} from "../services/products.service";
+import { ProductsService } from '../services/products.service';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
 
@@ -26,9 +26,9 @@ export class ProductsController {
   @Get()
   @HttpCode(HttpStatus.ACCEPTED)
   getProductsAll(
-      @Query('limit') limit = 0,
-      @Query('offset') offset = 0,
-      @Query('brand') brand: string,
+    @Query('limit') limit = 0,
+    @Query('offset') offset = 0,
+    @Query('brand') brand: string,
   ) {
     return this.productService.findAll();
   }
@@ -74,7 +74,10 @@ export class ProductsController {
   // }
 
   @Put(':productId')
-  update(@Param('productId') productId: string, @Body() payload: UpdateProductDto) {
+  update(
+    @Param('productId') productId: string,
+    @Body() payload: UpdateProductDto,
+  ) {
     // return {productId, payload}
     return this.productService.update(+productId, payload);
   }
