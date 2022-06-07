@@ -10,6 +10,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true, // se llegan atributos que no estan definidos en el dtos, los ignora y continua
       forbidNonWhitelisted: true, // alerta de atributos que no esta definido en el esquema de los dtos
+      transformOptions: {enableImplicitConversion: true}, // convierte string a number en @Query params
     }),
   );
 

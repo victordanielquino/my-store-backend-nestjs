@@ -20,4 +20,9 @@ export class AppController {
   newEndPointRuta(): string {
     return 'soy la nueva ruta';
   }
+
+  @Get('tasks')
+  getTasks() {
+    return this.appService.getTasks();
+  }
 }

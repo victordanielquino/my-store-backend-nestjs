@@ -19,19 +19,25 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
 @ApiTags('users') // SWAGGER: AGRUPAR APIS POR TITULO
 @Controller('users')
 export class UsersController {
+
   constructor(private userService: UsersService) {}
 
   @Get()
-  @ApiOperation({summary: 'Lista de Productos!!'})  // SWAGGER: Documentacion por end-point
+  @ApiOperation({summary: 'Lista de Usuarios!!'})  // SWAGGER: Documentacion por end-point
   @HttpCode(HttpStatus.ACCEPTED)
   getUsersAll(@Query('limit') limit = 0, @Query('offset') offset = 0) {
     return this.userService.findAll();
   }
 
+  @Get('tasks')
+  getTasks() {
+    return this.userService.getTasks();
+  }
+
   @Get(':userId')
   @HttpCode(HttpStatus.ACCEPTED)
   getUserById(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.findById(userId);
+    return this.userService.findOne(userId);
   }
 
   @Post()
@@ -53,9 +59,9 @@ export class UsersController {
   }
 
   // ORDERS:
-  @Get(':userId/orders')
+  /*@Get(':userId/orders')
   @HttpCode(HttpStatus.ACCEPTED)
   getOrders(@Param('userId', ParseIntPipe) userId: number) {
     return this.userService.getOrderByUserId(userId);
-  }
+  }*/
 }

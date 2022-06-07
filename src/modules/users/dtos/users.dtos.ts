@@ -6,7 +6,7 @@ import {
   IsNotEmpty,
   IsDate,
   IsPositive,
-  Length,
+  Length, IsOptional,
 } from 'class-validator';
 //import { PartialType } from "@nestjs/mapped-types";
 import {ApiProperty, PartialType} from '@nestjs/swagger';
@@ -26,6 +26,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly role: string;
+
+  @IsOptional()
+  @IsPositive()
+  @ApiProperty()
+  readonly customerId: number;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}

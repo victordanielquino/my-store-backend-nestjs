@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsDate,
   IsPositive,
+  IsArray, IsOptional, Min, ValidateIf,
 } from 'class-validator';
 //import { PartialType } from "@nestjs/mapped-types";
 import { PartialType, ApiProperty } from '@nestjs/swagger';
@@ -18,6 +19,7 @@ export class CreateProductDto {
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   readonly description: string;
 
   @IsNumber()
@@ -36,6 +38,16 @@ export class CreateProductDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly image: string;
+
+  @IsPositive()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly brandId: number;
+
+  @IsArray()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly categoriesIds: number[];
 }
 
 // con PartialType haremos que las validaciones opcionales sean dinamicas
@@ -48,3 +60,21 @@ export class UpdateProductDto {
     readonly image?: string;
 }*/
 export class UpdateProductDto extends PartialType(CreateProductDto) {}
+
+export class FilterProductDto {
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+
+  @IsOptional()
+  @Min(0)
+  offset: number;
+
+  @IsOptional()
+  @IsPositive()
+  priceMin: number;
+
+  @ValidateIf((item) => item.priceMin)
+  @IsPositive()
+  priceMax: number;
+}
