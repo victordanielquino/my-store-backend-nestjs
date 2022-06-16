@@ -1,4 +1,4 @@
-import { Module, HttpModule, HttpService } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
@@ -7,8 +7,9 @@ import { AppController } from './app.controller';
 import { UsersModule } from './modules/users/users.module';
 import { ProductsModule } from './modules/products/products.module';
 import { DatabaseModule } from './modules/database/database.module';
-import { enviroments } from './enviroments';
-import config from './config';
+import { enviroments } from './config/enviroments';
+import { AuthModule } from './modules/auth/auth.module';
+import config from './config/config';
 
 @Module({
   imports: [
@@ -17,9 +18,15 @@ import config from './config';
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
-        API_KEY: Joi.number().required(),
-        DATABASE_NAME: Joi.string().required(),
-        DATABASE_PORT: Joi.number().required(),
+        //API_KEY: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+
+        DEFAULT_USER_EMAIL: Joi.string().required(),
+        DEFAULT_USER_PASS: Joi.string().required(),
+        DEFAULT_USER_ROLE: Joi.string().required(),
+
+        // DATABASE_NAME: Joi.string().required(),
+        // DATABASE_PORT: Joi.number().required(),
         POSTGRES_DB: Joi.string().required(),
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
@@ -27,24 +34,12 @@ import config from './config';
         POSTGRES_HOST: Joi.string().required(),
       }),
     }),
-    HttpModule,
     UsersModule,
     ProductsModule,
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: 'TASKS',
-      useFactory: async (http: HttpService) => {
-        const tasks = await http
-          .get('https://jsonplaceholder.typicode.com/todos')
-          .toPromise();
-        return tasks.data;
-      },
-      inject: [HttpService],
-    }
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -1,43 +1,59 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Client } from "pg";
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
 import { ProductsService } from '../../products/services/products.service';
-import {CreateProductDto, UpdateProductDto} from "../../products/dtos/products.dtos";
-import {CustomersService} from "./customers.service";
+import { CustomersService } from './customers.service';
+import { RolesService } from './roles.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private productsService: ProductsService,
     private configService: ConfigService,
-    @Inject('PG') private clientPG: Client,
     @InjectRepository(User) private userRepo: Repository<User>,
-    private customerService: CustomersService
+    private customerService: CustomersService,
+    private rolesServices: RolesService,
   ) {}
 
   findAll() {
     return this.userRepo.find({
-      relations: ['customer'],
+      relations: ['customer', 'role'],
     });
   }
 
-  async findOne(id:number) {
-    const user = await this.userRepo.findOneBy({id:id});
+  async findOne(id: number) {
+    const user = await this.userRepo.findOne({
+      where: {
+        id: id,
+      },
+      relations: { role: true },
+    });
     if (!user) throw new NotFoundException(`User #${id} not exits.`);
     return user;
   }
 
+  async findByEmail(email: string) {
+    return this.userRepo.findOne({
+      where: { email: email },
+      relations: { role: true },
+    });
+  }
+
   async create(data: CreateUserDto) {
     const newUser = this.userRepo.create(data); // se instancia pero no se guarda
+    const hashPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashPassword;
     if (data.customerId) {
       const customer = await this.customerService.findOne(data.customerId);
       newUser.customer = customer;
     }
+    const role = await this.rolesServices.findOne(data.roleId);
+    newUser.role = role;
     return this.userRepo.save(newUser);
   }
 
@@ -60,78 +76,4 @@ export class UsersService {
       products: this.productsService.findAll(),
     };
   }
-
-  getTasks() {
-    return new Promise((resolve, reject) => {
-      this.clientPG.query('SELECT * FROM tasks', (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res.rows);
-      })
-    })
-  }
-  // METHODS:
-  /*findAll() {
-    const apiKey = this.configService.get('API_KEY');
-    const dbName = this.configService.get('DATABASE_NAME');
-    console.log(apiKey, dbName);
-    return this.users;
-  }
-  findById(id: number) {
-    const user = this.users.find((item) => item.id === id);
-    if (!user)
-      throw new NotFoundException(`findById: el user con id: #${id} not found`);
-    return user;
-  }
-  create(payload: CreateUserDto) {
-    //console.log('payload:', payload);
-    this.counterId++;
-    const newUser = {
-      id: this.counterId,
-      ...payload,
-    };
-    this.users.push(newUser);
-    return newUser;
-  }
-  update(id: number, payload: UpdateUserDto) {
-    const user = this.findById(id);
-    if (user) {
-      const index = this.users.findIndex((item) => item.id === id);
-      this.users[index] = {
-        ...user,
-        ...payload,
-      };
-      return this.users[index];
-    }
-    return null;
-  }
-  remove(id: number) {
-    const user = this.findById(id);
-    if (!user)
-      throw new NotFoundException(`remove: the user with id: #${id} not found`);
-    this.users = this.users.filter((items) => items.id !== id);
-    return true;
-  }
-
-  // ORDERS:
-  getOrderByUserId(id: number) {
-    const user = this.findById(id);
-    return {
-      date: new Date(),
-      user: user,
-      products: this.productsService.findAll(),
-    };
-  }
-
-  getTasks() {
-    return new Promise((resolve, reject) => {
-      this.clientPG.query('SELECT * FROM tasks', (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res.rows);
-      })
-    })
-  }*/
 }

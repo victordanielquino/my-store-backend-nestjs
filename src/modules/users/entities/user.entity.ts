@@ -1,37 +1,51 @@
-import {Column, PrimaryGeneratedColumn, Entity, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn} from 'typeorm';
+import { Exclude } from 'class-transformer';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
-import {Customer} from "./customer.entity";
+import { Customer } from './customer.entity';
+import { Role } from './role.entity';
 
-@Entity({name: 'users'})
+@Entity({ name: 'users' })
 export class User {
-
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type:'varchar', length:255 })
+  @Column({ type: 'varchar', length: 255 })
   email: string;
 
-  @Column({ type:'varchar', length:255 })
+  @Exclude()
+  @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({ type:'varchar', length:255 })
-  role: string;
+  // @Column({ type: 'varchar', length: 255 })
+  // role: string;
 
   @CreateDateColumn({
     name: 'create_at',
-    type:'timestamptz',
-    default:() => 'CURRENT_TIMESTAMP'
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  createAt:Date;
+  createAt: Date;
 
   @UpdateDateColumn({
     name: 'update_at',
-    type:'timestamptz',
-    default:() => 'CURRENT_TIMESTAMP'
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  updateAt:Date;
+  updateAt: Date;
 
-  @OneToOne(() => Customer, (customer) => customer.user,{nullable: true})
-  @JoinColumn({name: 'customer_id'}) // pueoe o no tener este atributo
+  @OneToOne(() => Customer, (customer) => customer.user, { nullable: true })
+  @JoinColumn({ name: 'customer_id' }) // pueoe o no tener el atributo name
   customer: Customer;
+
+  @OneToOne(() => Role)
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 }

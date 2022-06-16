@@ -6,10 +6,13 @@ import {
   IsNotEmpty,
   IsDate,
   IsPositive,
-  IsArray, IsOptional, Min, ValidateIf,
+  IsArray,
+  IsOptional,
+  Min,
+  ValidateIf,
 } from 'class-validator';
-//import { PartialType } from "@nestjs/mapped-types";
 import { PartialType, ApiProperty } from '@nestjs/swagger';
+//import { PartialType } from "@nestjs/mapped-types";
 
 export class CreateProductDto {
   @IsString()
@@ -64,11 +67,11 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {}
 export class FilterProductDto {
   @IsOptional()
   @IsPositive()
-  limit: number;
+  limit: number; // cuento elementos se sacara
 
   @IsOptional()
   @Min(0)
-  offset: number;
+  offset: number; // desde que elemento se hara el get
 
   @IsOptional()
   @IsPositive()

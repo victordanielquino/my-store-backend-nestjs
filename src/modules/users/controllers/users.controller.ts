@@ -29,11 +29,6 @@ export class UsersController {
     return this.userService.findAll();
   }
 
-  @Get('tasks')
-  getTasks() {
-    return this.userService.getTasks();
-  }
-
   @Get(':userId')
   @HttpCode(HttpStatus.ACCEPTED)
   getUserById(@Param('userId', ParseIntPipe) userId: number) {
@@ -57,11 +52,4 @@ export class UsersController {
   delete(@Param('userId', ParseIntPipe) userId: number) {
     return this.userService.remove(userId);
   }
-
-  // ORDERS:
-  /*@Get(':userId/orders')
-  @HttpCode(HttpStatus.ACCEPTED)
-  getOrders(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.getOrderByUserId(userId);
-  }*/
 }
