@@ -29,7 +29,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  setDefaultUser();
+  //setDefaultUser();
 
   // habilitar acceso a todos CORS:
   app.enableCors();

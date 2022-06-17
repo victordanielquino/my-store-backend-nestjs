@@ -13,9 +13,9 @@ import config from '../../config/config';
         return {
           type: 'postgres',
           url: configEnv.postgresUrl,
-          // ssl: {
-          //   rejectUnauthorized: false,
-          // },
+          ssl: {
+            rejectUnauthorized: false,
+          },
           synchronize: false, // para que la base de datos se sincronize conforme se creen las entities
           autoLoadEntities: true, // sincronizar con las entidades creadas
         };
