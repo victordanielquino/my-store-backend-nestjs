@@ -2,24 +2,13 @@ import { Client } from 'pg';
 import * as bcrypt from 'bcrypt';
 
 export const setDefaultUser = async () => {
-  const postgres = {
-    dbName: process.env.POSTGRES_DB,
-    dbUser: process.env.POSTGRES_USER,
-    dbPass: process.env.POSTGRES_PASSWORD,
-    dbPort: parseInt(process.env.POSTGRES_PORT),
-    dbHost: process.env.POSTGRES_HOST,
-  };
   const defaultUser = {
     email: process.env.DEFAULT_USER_EMAIL,
     pass: process.env.DEFAULT_USER_PASS,
     role: process.env.DEFAULT_USER_ROLE,
   };
   const client = new Client({
-    user: postgres.dbUser,
-    host: postgres.dbHost,
-    database: postgres.dbName,
-    password: postgres.dbPass,
-    port: postgres.dbPort,
+    connectionString: process.env.DATABASE_URL,
   });
   client.connect();
   client

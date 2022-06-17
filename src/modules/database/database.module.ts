@@ -10,14 +10,12 @@ import config from '../../config/config';
     TypeOrmModule.forRootAsync({
       inject: [config.KEY],
       useFactory: (configEnv: ConfigType<typeof config>) => {
-        const { dbPort, dbPass, dbName, dbHost, dbUser } = configEnv.postgres;
         return {
           type: 'postgres',
-          host: dbHost,
-          port: dbPort,
-          username: dbUser,
-          password: dbPass,
-          database: dbName,
+          url: configEnv.postgresUrl,
+          ssl: {
+            rejectUnauthorized: false,
+          },
           synchronize: false, // para que la base de datos se sincronize conforme se creen las entities
           autoLoadEntities: true, // sincronizar con las entidades creadas
         };
