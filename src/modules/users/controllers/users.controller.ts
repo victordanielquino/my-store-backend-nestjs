@@ -11,7 +11,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import {ApiOperation, ApiTags} from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UsersService } from '../services/users.service';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
@@ -19,11 +19,10 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
 @ApiTags('users') // SWAGGER: AGRUPAR APIS POR TITULO
 @Controller('users')
 export class UsersController {
-
   constructor(private userService: UsersService) {}
 
   @Get()
-  @ApiOperation({summary: 'Lista de Usuarios!!'})  // SWAGGER: Documentacion por end-point
+  @ApiOperation({ summary: 'Lista de Usuarios!!' }) // SWAGGER: Documentacion por end-point
   @HttpCode(HttpStatus.ACCEPTED)
   getUsersAll(@Query('limit') limit = 0, @Query('offset') offset = 0) {
     return this.userService.findAll();
