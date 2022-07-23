@@ -19,11 +19,6 @@ import config from './config/config';
       isGlobal: true,
       validationSchema: Joi.object({
         JWT_SECRET: Joi.string().required(),
-
-        DEFAULT_USER_EMAIL: Joi.string().required(),
-        DEFAULT_USER_PASS: Joi.string().required(),
-        DEFAULT_USER_ROLE: Joi.string().required(),
-
         DATABASE_URL: Joi.string().required(),
       }),
     }),

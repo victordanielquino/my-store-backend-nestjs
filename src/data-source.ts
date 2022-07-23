@@ -7,10 +7,6 @@ const Config: DataSourceOptions = {
   username: 'root',
   password: '12345',
   database: 'my_db',
-  // url: process.env.DATABASE_URL,
-  // ssl: {
-  //   rejectUnauthorized: true,
-  // },
   entities: ['src/modules/**/*.entity.ts'],
   migrations: ['src/modules/database/migrations/*.ts'],
   migrationsTableName: 'custom_migration_table',
