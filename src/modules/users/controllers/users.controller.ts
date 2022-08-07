@@ -13,42 +13,42 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { UsersService } from '../services/users.service';
-import { CreateUserDto, UpdateUserDto } from '../dtos/users.dtos';
+import { UserService } from '../services/user.service';
+import { UserCreateDto, UserUpdateDto } from '../../../core/dtos';
 
 @ApiTags('users') // SWAGGER: AGRUPAR APIS POR TITULO
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private userService: UserService) {}
 
   @Get()
   @ApiOperation({ summary: 'Lista de Usuarios!!' }) // SWAGGER: Documentacion por end-point
   @HttpCode(HttpStatus.ACCEPTED)
   getUsersAll(@Query('limit') limit = 0, @Query('offset') offset = 0) {
-    return this.userService.findAll();
+    return this.userService.getAll();
   }
 
   @Get(':userId')
   @HttpCode(HttpStatus.ACCEPTED)
   getUserById(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.findOne(userId);
+    return this.userService.getOneById(userId);
   }
 
   @Post()
-  create(@Body() payload: CreateUserDto) {
-    return this.userService.create(payload);
+  create(@Body() payload: UserCreateDto) {
+    return this.userService.createOne(payload);
   }
 
   @Put(':userId')
   update(
     @Param('userId', ParseIntPipe) userId: number,
-    @Body() payload: UpdateUserDto,
+    @Body() payload: UserUpdateDto,
   ) {
-    return this.userService.update(userId, payload);
+    return this.userService.updateOne(userId, payload);
   }
 
   @Delete(':userId')
   delete(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.remove(userId);
+    return this.userService.deleteOne(userId);
   }
 }

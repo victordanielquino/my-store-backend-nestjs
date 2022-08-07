@@ -7,25 +7,29 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
-import { Customer } from './customer.entity';
-import { Role } from './role.entity';
+import { Customer } from '../../modules/users/entities/customer.entity';
+import { UserRole } from './user-role.entity';
 
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  email: string;
+  @Column({ type: 'varchar', length: 50, nullable: false })
+  username: string;
 
   @Exclude()
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: false })
   password: string;
 
-  // @Column({ type: 'varchar', length: 255 })
-  // role: string;
+  @Column({ type: 'boolean', default: true })
+  enabled: boolean;
+
+  @Column({ type: 'integer', default: 0 })
+  intent: string;
 
   @CreateDateColumn({
     name: 'create_at',
@@ -45,7 +49,6 @@ export class User {
   @JoinColumn({ name: 'customer_id' }) // pueoe o no tener el atributo name
   customer: Customer;
 
-  @OneToOne(() => Role)
-  @JoinColumn({ name: 'role_id' })
-  role: Role;
+  @OneToMany(() => UserRole, (userRole) => userRole.user)
+  userRoles: UserRole[];
 }

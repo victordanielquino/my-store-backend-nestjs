@@ -22,11 +22,14 @@ async function bootstrap() {
     .setTitle('API')
     .setDescription('DOCUMENTACION DE API TIENDA VIRTUAL')
     .setVersion('1.0')
-    //.addTag('cats')
+    .addTag('DANIEL')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+
+  // /api/
+  app.setGlobalPrefix('api');
 
   //setDefaultUser();
 

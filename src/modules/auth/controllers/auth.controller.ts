@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 
 import { AuthService } from '../services/auth.service';
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../../core/models/user.entity';
 
 @Controller('auth')
 export class AuthController {

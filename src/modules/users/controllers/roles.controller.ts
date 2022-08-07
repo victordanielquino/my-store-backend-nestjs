@@ -7,8 +7,9 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateRoleDto } from '../dtos/roles.dtos';
+
 import { RolesService } from '../services/roles.service';
+import { RoleCreateDto } from '../../../core/dtos';
 
 @ApiTags('roles')
 @Controller('roles')
@@ -28,7 +29,7 @@ export class RolesController {
 
   @Post()
   @ApiOperation({ summary: 'crear rol' })
-  create(@Body() payload: CreateRoleDto) {
+  create(@Body() payload: RoleCreateDto) {
     return this.rolesRepo.create(payload);
   }
 }
