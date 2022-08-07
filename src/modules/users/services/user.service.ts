@@ -36,14 +36,17 @@ export class UserService implements UserInterface {
 
   async getAll(): Promise<UserReadDto[]> {
     const data: User[] = await this._userRepo.find({
-      relations: ['userRoles', 'userRoles.user'],
+      relations: ['userRoles', 'userRoles.role'],
     });
-    console.log(data);
-    return data.map((item: User) =>
-      plainToClass(UserReadDto, item, {
+    return data.map((item: User) => {
+      const userDto = plainToClass(UserReadDto, item, {
         excludeExtraneousValues: true,
-      }),
-    );
+      });
+      userDto.roles = item.userRoles.map((role) =>
+        plainToClass(RoleReadDto, role.role, { excludeExtraneousValues: true }),
+      );
+      return userDto;
+    });
   }
 
   async getOneById(id: number): Promise<UserReadDto> {
@@ -52,13 +55,15 @@ export class UserService implements UserInterface {
       where: {
         id: id,
       },
+      relations: ['userRoles', 'userRoles.role'],
     });
     if (!user) throw new NotFoundException(`User #${id} not exits.`);
-    const roles: RoleReadDto[] = await this._urServise.getAllByUserId(user.id);
     const userDto = plainToClass(UserReadDto, user, {
       excludeExtraneousValues: true,
     });
-    userDto.roles = roles;
+    userDto.roles = user.userRoles.map((item) =>
+      plainToClass(RoleReadDto, item.role, { excludeExtraneousValues: true }),
+    );
     return userDto;
   }
 

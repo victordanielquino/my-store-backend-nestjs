@@ -1,6 +1,18 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { UserRoleService } from '../services/user-role.service';
-import { RoleReadDto, UserReadDto, UserRoleReadDto } from '../../../core/dtos';
+import {
+  RoleReadDto,
+  UserReadDto,
+  UserRoleCreateDto,
+  UserRoleReadDto,
+} from '../../../core/dtos';
 
 @Controller('user-role')
 export class UserRoleController {
@@ -40,5 +52,10 @@ export class UserRoleController {
       message: 'USER-ROLE: getOneByRoleId',
       data,
     };
+  }
+
+  @Post()
+  async createOne(@Body() payload: UserRoleCreateDto) {
+    return await this._urService.createOne(payload);
   }
 }

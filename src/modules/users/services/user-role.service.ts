@@ -3,18 +3,25 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-
-import { UserRoleInterface } from './intefaces/user-role.interface';
-import { RoleReadDto, UserReadDto, UserRoleReadDto } from '../../../core/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRole } from '../../../core/models';
 import { Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
+
+import { UserRoleInterface } from './intefaces/user-role.interface';
+import {
+  RoleReadDto,
+  UserReadDto,
+  UserRoleCreateDto,
+  UserRoleReadDto,
+} from '../../../core/dtos';
+import { Role, User, UserRole } from '../../../core/models';
 
 @Injectable()
 export class UserRoleService implements UserRoleInterface {
   constructor(
     @InjectRepository(UserRole) private _urRepo: Repository<UserRole>,
+    @InjectRepository(User) private _userRepo: Repository<User>,
+    @InjectRepository(Role) private _roleRepo: Repository<Role>,
   ) {}
 
   async getAll(): Promise<UserRoleReadDto[]> {
@@ -107,5 +114,14 @@ export class UserRoleService implements UserRoleInterface {
     return data.map((item) =>
       plainToClass(RoleReadDto, item.role, { excludeExtraneousValues: true }),
     );
+  }
+
+  async createOne(data: UserRoleCreateDto) {
+    const user = await this._userRepo.findOneBy({ id: data.userId });
+    const role = await this._roleRepo.findOneBy({ id: data.roleId });
+    const userRole = new UserRole();
+    userRole.user = user;
+    userRole.role = role;
+    return await this._urRepo.save(userRole);
   }
 }

@@ -18,7 +18,7 @@ import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dtos';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
 import { Roles } from 'src/modules/auth/decorators/roles.decorator';
-import { Role } from 'src/modules/auth/Models/roles.model';
+import { Role } from 'src/modules/auth/Models/roles.enum';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('categories') // SWAGGER: AGRUPAR APIS POR TITULO

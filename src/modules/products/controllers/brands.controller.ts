@@ -20,7 +20,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Public } from '../../auth/decorators/public.decorator';
 import { Roles } from '../../auth/decorators/roles.decorator';
-import { Role } from '../../auth/Models/roles.model';
+import { Role } from '../../auth/Models/roles.enum';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('brands') // SWAGGER: AGRUPAR APIS POR TITULO
