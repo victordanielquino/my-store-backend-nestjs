@@ -16,11 +16,11 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { BrandsService } from '../services/brands.service';
 import { CreateBrandDto, UpdateBrandDto } from '../dtos/brands.dtos';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../../auth/guards/roles.guard';
-import { Public } from '../../auth/decorators/public.decorator';
-import { Roles } from '../../auth/decorators/roles.decorator';
-import { Role } from '../../auth/Models/roles.enum';
+import { JwtAuthGuard } from '../../../core/guards';
+import { RolesGuard } from '../../../core/guards';
+import { Public } from '../../../core/decorators';
+import { Roles } from '../../../core/decorators';
+import { RoleEnum } from '../../../core/enums';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('brands') // SWAGGER: AGRUPAR APIS POR TITULO
@@ -36,20 +36,20 @@ export class BrandsController {
     return this.brandService.findAll();
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
   getBrandById(@Param('id', ParseIntPipe) id: number) {
     return this.brandService.findOne(id);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Post()
   create(@Body() payload: CreateBrandDto) {
     return this.brandService.create(payload);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -58,7 +58,7 @@ export class BrandsController {
     return this.brandService.update(id, payload);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.brandService.remove(id);

@@ -15,10 +15,10 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from '../services/categories.service';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dtos';
-import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
-import { Roles } from 'src/modules/auth/decorators/roles.decorator';
-import { Role } from 'src/modules/auth/Models/roles.enum';
+import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/core/guards/roles.guard';
+import { Roles } from 'src/core/decorators/roles.decorator';
+import { RoleEnum } from '../../../core/enums';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('categories') // SWAGGER: AGRUPAR APIS POR TITULO
@@ -26,7 +26,7 @@ import { Role } from 'src/modules/auth/Models/roles.enum';
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Get()
   @ApiOperation({ summary: 'Lista de Categories' })
   @HttpCode(HttpStatus.ACCEPTED)
@@ -34,19 +34,19 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Get(':id')
   getById(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.findOne(id);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Post()
   create(@Body() payload: CreateCategoryDto) {
     return this.categoriesService.create(payload);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -55,7 +55,7 @@ export class CategoriesController {
     return this.categoriesService.update(id, payload);
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(RoleEnum.ADMIN)
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.remove(id);

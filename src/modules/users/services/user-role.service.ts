@@ -116,12 +116,17 @@ export class UserRoleService implements UserRoleInterface {
     );
   }
 
-  async createOne(data: UserRoleCreateDto) {
-    const user = await this._userRepo.findOneBy({ id: data.userId });
-    const role = await this._roleRepo.findOneBy({ id: data.roleId });
+  async createOne(data: UserRoleCreateDto): Promise<UserReadDto> {
     const userRole = new UserRole();
-    userRole.user = user;
-    userRole.role = role;
-    return await this._urRepo.save(userRole);
+    userRole.user = data.user;
+    userRole.role = data.role;
+    const resp = await this._urRepo.save(userRole);
+    const userDto = plainToClass(UserReadDto, resp.user, {
+      excludeExtraneousValues: true,
+    });
+    userDto.roles = [
+      plainToClass(RoleReadDto, resp.role, { excludeExtraneousValues: true }),
+    ];
+    return userDto;
   }
 }

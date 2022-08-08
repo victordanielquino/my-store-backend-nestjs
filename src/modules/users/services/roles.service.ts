@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Role } from '../../../core/models/role.entity';
+import { Role } from '../../../core/models';
 import { RoleCreateDto } from '../../../core/dtos';
 
 @Injectable()

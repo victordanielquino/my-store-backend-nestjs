@@ -20,9 +20,9 @@ import {
   FilterProductDto,
   UpdateProductDto,
 } from '../dtos/products.dtos';
-import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
-import { Public } from 'src/modules/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/core/guards/roles.guard';
+import { Public } from 'src/core/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('products') // AGRUPAR APIS CON SWAGGER

@@ -7,20 +7,20 @@ import {
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 
-import { ROLES_KEY } from '../decorators/roles.decorator';
-import { PayloadToken } from '../services/interface/token.interface';
-import { Role } from '../Models/roles.enum';
+import { ROLES_KEY } from '../decorators';
+import { PayloadToken } from '../../modules/auth/services/interface/token.interface';
+import { RoleEnum } from '../enums';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector) {} // leemos la petadata
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     // obtenemos la metadata del endPoint:
-    // rolesEndPoint: ['admin']
-    const rolesEndpoint = this.reflector.get<Role[]>(
+    // rolesEndPoint: ['admin', 'cutomer', 'superadmin']
+    const rolesEndpoint = this.reflector.get<RoleEnum[]>(
       ROLES_KEY,
       context.getHandler(),
     );

@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 
-import { User, UserRole } from '../../../core/models';
+import { User } from '../../../core/models';
 import { ProductsService } from '../../products/services/products.service';
 import { CustomersService } from './customers.service';
 import { RolesService } from './roles.service';
@@ -27,7 +27,7 @@ import { UserRoleService } from './user-role.service';
 export class UserService implements UserInterface {
   constructor(
     @InjectRepository(User) private _userRepo: Repository<User>,
-    private _urServise: UserRoleService,
+    private _urService: UserRoleService,
     private productsService: ProductsService,
     private configService: ConfigService,
     private customerService: CustomersService,
@@ -75,7 +75,7 @@ export class UserService implements UserInterface {
     });
     if (!data) throw new NotFoundException(`User #${username} not exits.`);
 
-    const roles: RoleReadDto[] = await this._urServise.getAllByUserId(data.id);
+    const roles: RoleReadDto[] = await this._urService.getAllByUserId(data.id);
     if (!roles || roles.length == 0)
       throw new NotFoundException(`User #${username} not asign roles.`);
 
@@ -86,15 +86,23 @@ export class UserService implements UserInterface {
     return userDto;
   }
 
-  async createOne(data: UserCreateDto) {
-    const newUser = this._userRepo.create(data); // se instancia pero no se guarda
+  async createOne(payload: UserCreateDto): Promise<UserReadDto> {
+    const userExist = await this._userRepo.findOneBy({
+      username: payload.username,
+    });
+    if (userExist)
+      throw new BadRequestException(
+        `User with username: ${payload.username} exist.`,
+      );
+    const newUser = this._userRepo.create(payload); // se instancia pero no se guarda
     newUser.password = await bcrypt.hash(newUser.password, 10);
-    if (data.customerId) {
-      newUser.customer = await this.customerService.findOne(data.customerId);
+    if (payload.customerId) {
+      newUser.customer = await this.customerService.findOne(payload.customerId);
     }
-    const role = await this.rolesServices.findOne(data.roleId);
-    //newUser.role = role;
-    return await this._userRepo.save(newUser);
+    const role = await this.rolesServices.findOne(payload.roleId[0]);
+    const user = await this._userRepo.save(newUser);
+
+    return await this._urService.createOne({ user, role });
   }
 
   async updateOne(id: number, change: UserUpdateDto) {

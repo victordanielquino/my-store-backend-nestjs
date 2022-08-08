@@ -28,13 +28,13 @@ export class UserRoleCreateDto {
   @IsNotEmpty()
   @ApiProperty()
   @Expose()
-  userId: number;
+  user: User;
 
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
   @Expose()
-  roleId: number;
+  role: Role;
 }
 
 export class UserRoleUpdateDto extends PartialType(UserRoleCreateDto) {}

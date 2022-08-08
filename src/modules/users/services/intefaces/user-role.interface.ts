@@ -1,6 +1,7 @@
 import {
   RoleReadDto,
   UserReadDto,
+  UserRoleCreateDto,
   UserRoleReadDto,
 } from '../../../../core/dtos';
 
@@ -9,4 +10,5 @@ export interface UserRoleInterface {
   getAllByUserId(id: number): Promise<RoleReadDto[]>;
   getAllByRoleId(id: number): Promise<UserReadDto[]>;
   getOneById(id: number): Promise<UserRoleReadDto>;
+  createOne(payload: UserRoleCreateDto): Promise<UserReadDto>;
 }

@@ -6,12 +6,11 @@ import {
   Length,
   IsOptional,
   IsNumber,
+  IsArray,
 } from 'class-validator';
-//import { PartialType } from "@nestjs/mapped-types";
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-
-import { Role } from '../models';
 import { Expose } from 'class-transformer';
+
 import { RoleReadDto } from './role.dto';
 import { Customer } from '../../modules/users/entities';
 
@@ -43,10 +42,9 @@ export class UserReadDto {
 
 export class UserCreateDto {
   @IsString()
-  @IsEmail()
-  @ApiProperty({ description: 'the email of user' })
+  @ApiProperty({ description: 'the username of user' })
   @Expose()
-  readonly email: string;
+  readonly username: string;
 
   @IsString()
   @IsNotEmpty()
@@ -62,19 +60,37 @@ export class UserCreateDto {
   readonly customerId: number;
 
   @IsNotEmpty()
-  @IsPositive()
+  @IsArray()
   @ApiProperty()
   @Expose()
-  readonly roleId: number;
+  readonly roleId: number[];
 }
 
 export class UserUpdateDto extends PartialType(UserCreateDto) {}
 
-export class UserAuthReadDto extends PartialType(UserReadDto) {
+export class UserAuthReadDto {
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'the id of user' })
+  @Expose()
+  readonly id: number;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'the email of user' })
+  @Expose()
+  readonly username: string;
+
   @IsString()
   @IsNotEmpty()
   @Length(6)
   @ApiProperty()
   @Expose()
-  readonly password: string;
+  password: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  @IsOptional()
+  @Expose()
+  roles: RoleReadDto[];
 }
