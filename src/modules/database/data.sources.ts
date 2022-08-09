@@ -9,7 +9,7 @@ const Config: DataSourceOptions = {
   database: 'dbstore',*/
   url: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: true,
+    rejectUnauthorized: false,
   },
   entities: ['src/core/models/entities/*.entity.ts'],
   migrations: ['src/modules/database/migrations/*.ts'],
