@@ -25,7 +25,10 @@ export class UsersController {
   @ApiOperation({ summary: 'Lista de Usuarios!!' }) // SWAGGER: Documentacion por end-point
   @HttpCode(HttpStatus.ACCEPTED)
   getUsersAll(@Query('limit') limit = 0, @Query('offset') offset = 0) {
-    return this.userService.getAll();
+    return {
+      message: 'getAll: Users',
+      data: this.userService.getAll(),
+    };
   }
 
   @Get(':userId')

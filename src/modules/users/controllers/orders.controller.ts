@@ -10,11 +10,10 @@ import {
 
 import { OrdersService } from '../services/orders.service';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
-import {
-  CreateOrderDto,
-  UpdateOrderDto,
-} from '../../../core/models/dtos/order.dto';
+import { CreateOrderDto, UpdateOrderDto } from '../../../core/models/dtos';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('CONTROLLER: ORDER') // SWAGGER: AGRUPAR APIS POR TITULO
 @Controller('orders')
 export class OrdersController {
   constructor(private ordersService: OrdersService) {}

@@ -14,9 +14,9 @@ import { ParseIntPipe } from '../../../common/parse-int.pipe';
 import {
   CreateCustomerDto,
   UpdateCustomerDto,
-} from '../../../core/models/dtos/customer.dto';
+} from '../../../core/models/dtos';
 
-@ApiTags('customers') // SWAGGER: AGRUPAR APIS POR TITULO
+@ApiTags('CONTROLLER: CUSTORMER') // SWAGGER: AGRUPAR APIS POR TITULO
 @Controller('customers')
 export class CustomersController {
   constructor(private customersService: CustomersService) {}
