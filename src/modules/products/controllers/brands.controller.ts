@@ -15,7 +15,10 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { BrandsService } from '../services/brands.service';
-import { CreateBrandDto, UpdateBrandDto } from '../dtos/brands.dtos';
+import {
+  CreateBrandDto,
+  UpdateBrandDto,
+} from '../../../core/models/dtos/brand.dto';
 import { JwtAuthGuard } from '../../../core/guards';
 import { RolesGuard } from '../../../core/guards';
 import { Public } from '../../../core/decorators';

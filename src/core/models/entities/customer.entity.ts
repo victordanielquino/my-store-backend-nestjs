@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { User } from '../../../core/models/user.entity';
+import { User } from './user.entity';
 import { Order } from './order.entity';
 
 @Entity({ name: 'customers' })

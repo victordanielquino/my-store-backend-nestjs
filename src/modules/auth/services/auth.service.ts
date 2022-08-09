@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../../users/services/user.service';
 import { PayloadToken } from './interface/token.interface';
 import { plainToClass } from 'class-transformer';
-import { UserAuthReadDto } from '../../../core/dtos';
+import { UserAuthReadDto } from '../../../core/models/dtos';
 import { RoleEnum } from '../../../core/enums';
 
 @Injectable()

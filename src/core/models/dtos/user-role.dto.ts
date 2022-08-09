@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsDate } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { Role, User } from '../models';
+import { Role, User } from '../entities';
 import { RoleReadDto } from './role.dto';
 import { UserReadDto } from './user.dto';
 import { Expose } from 'class-transformer';

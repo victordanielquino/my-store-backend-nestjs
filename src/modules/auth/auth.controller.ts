@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './services/auth.service';
-import { UserAuthReadDto } from '../../core/dtos';
+import { UserAuthReadDto } from '../../core/models/dtos';
 
 @ApiTags('Controller: Auth')
 @Controller('auth')

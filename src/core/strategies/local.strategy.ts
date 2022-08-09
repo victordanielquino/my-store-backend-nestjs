@@ -15,7 +15,6 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
 
   async validate(username: string, password: string) {
     const user = await this.authService.validationUser(username, password);
-    console.log('jejeje:', user);
     if (!user) {
       // responde al front si es que su user o email son no validos
       throw new UnauthorizedException('local.strategy.ts: usuario no valido');

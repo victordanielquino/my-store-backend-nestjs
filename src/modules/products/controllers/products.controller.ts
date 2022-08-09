@@ -19,7 +19,7 @@ import {
   CreateProductDto,
   FilterProductDto,
   UpdateProductDto,
-} from '../dtos/products.dtos';
+} from '../../../core/models/dtos/product.dto';
 import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/core/guards/roles.guard';
 import { Public } from 'src/core/decorators/public.decorator';

@@ -12,7 +12,7 @@ import {
   UserReadDto,
   UserRoleCreateDto,
   UserRoleReadDto,
-} from '../../../core/dtos';
+} from '../../../core/models/dtos';
 
 @Controller('user-role')
 export class UserRoleController {

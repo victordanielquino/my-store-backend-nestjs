@@ -10,7 +10,7 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Customer } from '../../modules/users/entities/customer.entity';
+import { Customer } from './customer.entity';
 import { UserRole } from './user-role.entity';
 
 @Entity({ name: 'users' })

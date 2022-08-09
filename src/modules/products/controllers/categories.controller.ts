@@ -14,7 +14,10 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { CategoriesService } from '../services/categories.service';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
-import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dtos';
+import {
+  CreateCategoryDto,
+  UpdateCategoryDto,
+} from '../../../core/models/dtos/category.dto';
 import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/core/guards/roles.guard';
 import { Roles } from 'src/core/decorators/roles.decorator';

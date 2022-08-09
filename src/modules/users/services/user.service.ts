@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 
-import { User } from '../../../core/models';
+import { User } from '../../../core/models/entities';
 import { ProductsService } from '../../products/services/products.service';
 import { CustomersService } from './customers.service';
 import { RolesService } from './roles.service';
@@ -20,7 +20,7 @@ import {
   UserCreateDto,
   UserReadDto,
   UserUpdateDto,
-} from '../../../core/dtos';
+} from '../../../core/models/dtos';
 import { UserRoleService } from './user-role.service';
 
 @Injectable()

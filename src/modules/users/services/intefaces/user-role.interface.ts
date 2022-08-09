@@ -3,7 +3,7 @@ import {
   UserReadDto,
   UserRoleCreateDto,
   UserRoleReadDto,
-} from '../../../../core/dtos';
+} from '../../../../core/models/dtos';
 
 export interface UserRoleInterface {
   getAll(): Promise<UserRoleReadDto[]>;

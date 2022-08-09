@@ -2,7 +2,7 @@ import {
   UserAuthReadDto,
   UserCreateDto,
   UserReadDto,
-} from '../../../../core/dtos';
+} from '../../../../core/models/dtos';
 
 export interface UserInterface {
   getAll(): Promise<UserReadDto[]>;

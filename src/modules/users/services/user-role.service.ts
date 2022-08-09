@@ -13,8 +13,8 @@ import {
   UserReadDto,
   UserRoleCreateDto,
   UserRoleReadDto,
-} from '../../../core/dtos';
-import { Role, User, UserRole } from '../../../core/models';
+} from '../../../core/models/dtos';
+import { Role, User, UserRole } from '../../../core/models/entities';
 
 @Injectable()
 export class UserRoleService implements UserRoleInterface {

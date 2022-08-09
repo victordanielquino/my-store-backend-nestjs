@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import { Product } from '../../products/entities/product.entity';
+import { Product } from './product.entity';
 import { Order } from './order.entity';
 import { Exclude } from 'class-transformer';
 

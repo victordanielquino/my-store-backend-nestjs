@@ -12,7 +12,7 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 import { RoleReadDto } from './role.dto';
-import { Customer } from '../../modules/users/entities';
+import { Customer } from '../entities';
 
 export class UserReadDto {
   @IsNumber()

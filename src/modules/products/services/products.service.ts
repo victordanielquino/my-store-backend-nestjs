@@ -6,10 +6,10 @@ import {
   CreateProductDto,
   FilterProductDto,
   UpdateProductDto,
-} from '../dtos/products.dtos';
-import { Product } from '../entities/product.entity';
-import { Brand } from '../entities/brand.entity';
-import { Category } from '../entities/category.entity';
+} from '../../../core/models/dtos';
+import { Product } from '../../../core/models/entities';
+import { Brand } from '../../../core/models/entities';
+import { Category } from '../../../core/models/entities';
 
 @Injectable()
 export class ProductsService {

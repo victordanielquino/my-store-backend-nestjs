@@ -9,7 +9,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { RolesService } from '../services/roles.service';
-import { RoleCreateDto } from '../../../core/dtos';
+import { RoleCreateDto } from '../../../core/models/dtos';
 
 @ApiTags('roles')
 @Controller('roles')

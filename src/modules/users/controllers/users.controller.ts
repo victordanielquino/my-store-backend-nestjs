@@ -14,7 +14,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from '../services/user.service';
-import { UserCreateDto, UserUpdateDto } from '../../../core/dtos';
+import { UserCreateDto, UserUpdateDto } from '../../../core/models/dtos';
 
 @ApiTags('CONTROLLER: USER') // SWAGGER: AGRUPAR APIS POR TITULO
 @Controller('users')
