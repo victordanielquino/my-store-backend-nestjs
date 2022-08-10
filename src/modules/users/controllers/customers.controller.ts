@@ -12,8 +12,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { CustomersService } from '../services/customers.service';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
 import {
-  CreateCustomerDto,
-  UpdateCustomerDto,
+  CustomerCreateDto,
+  CustomerUpdateDto,
 } from '../../../core/models/dtos';
 
 @ApiTags('CONTROLLER: CUSTORMER') // SWAGGER: AGRUPAR APIS POR TITULO
@@ -32,14 +32,14 @@ export class CustomersController {
   }
 
   @Post()
-  create(@Body() payload: CreateCustomerDto) {
+  create(@Body() payload: CustomerCreateDto) {
     return this.customersService.create(payload);
   }
 
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateCustomerDto,
+    @Body() payload: CustomerUpdateDto,
   ) {
     return this.customersService.update(id, payload);
   }

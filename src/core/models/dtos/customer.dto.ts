@@ -1,19 +1,69 @@
-import { IsString, IsNotEmpty, IsPhoneNumber } from 'class-validator';
-import { PartialType } from '@nestjs/swagger';
+import {
+  IsString,
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+import { Order, User } from '../entities';
 
-export class CreateCustomerDto {
+export class CustomerReadDto {
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
+  readonly id: number;
+
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
   readonly name: string;
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
+  readonly lastName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
+  readonly phone: string;
+
+  @IsOptional()
+  @ApiProperty()
+  @Expose()
+  readonly user: User;
+
+  @IsOptional()
+  @ApiProperty()
+  @Expose()
+  readonly orders: Order[];
+}
+
+export class CustomerCreateDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
+  readonly name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
   readonly lastName: string;
 
   //@IsPhoneNumber()
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
   readonly phone: string;
 }
 
-export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}
+export class CustomerUpdateDto extends PartialType(CustomerCreateDto) {}

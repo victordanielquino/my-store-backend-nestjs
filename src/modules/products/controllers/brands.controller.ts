@@ -15,10 +15,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { BrandsService } from '../services/brands.service';
-import {
-  CreateBrandDto,
-  UpdateBrandDto,
-} from '../../../core/models/dtos/brand.dto';
+import { BrandCreateDto, BrandUpdateDto } from '../../../core/models/dtos';
 import { JwtAuthGuard } from '../../../core/guards';
 import { RolesGuard } from '../../../core/guards';
 import { Public } from '../../../core/decorators';
@@ -48,7 +45,7 @@ export class BrandsController {
 
   @Roles(RoleEnum.ADMIN)
   @Post()
-  create(@Body() payload: CreateBrandDto) {
+  create(@Body() payload: BrandCreateDto) {
     return this.brandService.create(payload);
   }
 
@@ -56,7 +53,7 @@ export class BrandsController {
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateBrandDto,
+    @Body() payload: BrandUpdateDto,
   ) {
     return this.brandService.update(id, payload);
   }

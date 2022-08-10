@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Order } from '../../../core/models/entities';
 import { OrderItem } from '../../../core/models/entities';
 import { Product } from '../../../core/models/entities';
-import { CreateOrderItemDto } from '../../../core/models/dtos';
+import { OrderItemCreateDto } from '../../../core/models/dtos';
 
 @Injectable()
 export class OrderItemService {
@@ -15,7 +15,7 @@ export class OrderItemService {
     @InjectRepository(Product) private productRepo: Repository<Product>,
   ) {}
 
-  async create(data: CreateOrderItemDto) {
+  async create(data: OrderItemCreateDto) {
     const order = await this.orderRepo.findOneBy({ id: data.orderId });
     const product = await this.productRepo.findOneBy({ id: data.productId });
     const item = new OrderItem();

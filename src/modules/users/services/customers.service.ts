@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 
 import { Customer } from '../../../core/models/entities';
 import {
-  CreateCustomerDto,
-  UpdateCustomerDto,
+  CustomerCreateDto,
+  CustomerUpdateDto,
 } from '../../../core/models/dtos';
 
 @Injectable()
@@ -26,12 +26,12 @@ export class CustomersService {
     return customer;
   }
 
-  create(data: CreateCustomerDto) {
+  create(data: CustomerCreateDto) {
     const newCustomer = this.customerRepo.create(data);
     return this.customerRepo.save(newCustomer);
   }
 
-  async update(id: number, changes: UpdateCustomerDto) {
+  async update(id: number, changes: CustomerUpdateDto) {
     const customer = await this.findOne(id);
     this.customerRepo.merge(customer, changes);
     return this.customerRepo.save(customer);

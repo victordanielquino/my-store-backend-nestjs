@@ -1,35 +1,70 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { RolesService } from '../services/roles.service';
-import { RoleCreateDto } from '../../../core/models/dtos';
+import { RoleCreateDto, RoleUpdateDto } from '../../../core/models/dtos';
 
 @ApiTags('CONTROLLER: ROLE')
 @Controller('roles')
 export class RolesController {
-  constructor(private rolesRepo: RolesService) {}
+  constructor(private _roleService: RolesService) {}
 
   @Get()
-  getAll() {
-    return this.rolesRepo.findAll();
+  @ApiOperation({ summary: 'obtener rol all' })
+  async getAll() {
+    return {
+      message: 'ROLE: getAll',
+      data: await this._roleService.getAll(),
+    };
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'obtener rol por id' })
-  getRolById(@Param('id', ParseIntPipe) id: number) {
-    return this.rolesRepo.findOne(id);
+  async getOne(@Param('id', ParseIntPipe) id: number) {
+    return {
+      message: 'ROLE: getRolById',
+      data: await this._roleService.getOne(id),
+    };
   }
 
   @Post()
   @ApiOperation({ summary: 'crear rol' })
-  create(@Body() payload: RoleCreateDto) {
-    return this.rolesRepo.create(payload);
+  async createOne(@Body() payload: RoleCreateDto) {
+    return {
+      message: 'ROLE: createOne',
+      data: await this._roleService.createOne(payload),
+    };
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'crear rol' })
+  async updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() change: RoleUpdateDto,
+  ) {
+    const data = await this._roleService.updateOne(id, change);
+    return {
+      message: 'ROLE: updateOne',
+      data,
+    };
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'delete rol' })
+  async deleteOne(@Param('id', ParseIntPipe) id: number) {
+    const data = await this._roleService.deleteOne(id);
+    return {
+      message: 'ROLE: deleteOne',
+      data,
+    };
   }
 }

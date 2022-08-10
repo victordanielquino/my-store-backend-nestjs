@@ -20,9 +20,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('API')
-    .setDescription('DOCUMENTACION DE API TIENDA VIRTUAL')
+    .setDescription('DOCUMENTACION: API TIENDA VIRTUAL')
     .setVersion('1.0')
-    .addTag('DANIEL')
+    .addTag('by VICTOR DANIEL QUINO JIMENEZ')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

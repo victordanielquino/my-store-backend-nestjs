@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Brand } from '../../../core/models/entities';
-import { CreateBrandDto, UpdateBrandDto } from '../../../core/models/dtos';
+import { BrandCreateDto, BrandUpdateDto } from '../../../core/models/dtos';
 
 @Injectable()
 export class BrandsService {
@@ -26,12 +26,12 @@ export class BrandsService {
     return brand;
   }
 
-  async create(data: CreateBrandDto) {
+  async create(data: BrandCreateDto) {
     const newBrand = this.brandsRepo.create(data); // se instancia pero no se guarda
     return this.brandsRepo.save(newBrand); // se guarda
   }
 
-  async update(id: number, change: UpdateBrandDto) {
+  async update(id: number, change: BrandUpdateDto) {
     const brand = await this.brandsRepo.findOneBy({ id: id });
     this.brandsRepo.merge(brand, change);
     return this.brandsRepo.save(brand);

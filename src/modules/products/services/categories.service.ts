@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 
 import { Category } from '../../../core/models/entities';
 import {
-  CreateCategoryDto,
-  UpdateCategoryDto,
+  CategoryCreateDto,
+  CategoryUpdateDto,
 } from '../../../core/models/dtos';
 
 @Injectable()
@@ -31,12 +31,12 @@ export class CategoriesService {
     return category;
   }
 
-  create(data: CreateCategoryDto) {
+  create(data: CategoryCreateDto) {
     const newCategory = this.categoriesRepo.create(data);
     return this.categoriesRepo.save(newCategory);
   }
 
-  async update(id: number, change: UpdateCategoryDto) {
+  async update(id: number, change: CategoryUpdateDto) {
     const category = await this.categoriesRepo.findOneBy({ id: id });
     this.categoriesRepo.merge(category, change);
     return this.categoriesRepo.save(category);

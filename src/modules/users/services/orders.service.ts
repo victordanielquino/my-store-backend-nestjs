@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Order } from '../../../core/models/entities';
 import { Customer } from '../../../core/models/entities';
-import { CreateOrderDto, UpdateOrderDto } from '../../../core/models/dtos';
+import { OrderCreateDto, OrderUpdateDto } from '../../../core/models/dtos';
 
 @Injectable()
 export class OrdersService {
@@ -32,7 +32,7 @@ export class OrdersService {
     return order;
   }
 
-  async create(data: CreateOrderDto) {
+  async create(data: OrderCreateDto) {
     const newOrder = new Order();
     if (data.customerId) {
       const customer = await this.customerRepo.findOneBy({
@@ -43,7 +43,7 @@ export class OrdersService {
     return this.orderRepo.save(newOrder);
   }
 
-  async update(id: number, change: UpdateOrderDto) {
+  async update(id: number, change: OrderUpdateDto) {
     const order = await this.orderRepo.findOneBy({ id: id });
     if (change.customerId) {
       const customer = await this.customerRepo.findOneBy({

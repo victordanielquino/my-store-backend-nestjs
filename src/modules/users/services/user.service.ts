@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 
-import { User } from '../../../core/models/entities';
+import { Role, User } from '../../../core/models/entities';
 import { ProductsService } from '../../products/services/products.service';
 import { CustomersService } from './customers.service';
 import { RolesService } from './roles.service';
@@ -27,6 +27,7 @@ import { UserRoleService } from './user-role.service';
 export class UserService implements UserInterface {
   constructor(
     @InjectRepository(User) private _userRepo: Repository<User>,
+    private _roleService: RolesService,
     private _urService: UserRoleService,
     private productsService: ProductsService,
     private configService: ConfigService,
@@ -99,22 +100,36 @@ export class UserService implements UserInterface {
     if (payload.customerId) {
       newUser.customer = await this.customerService.findOne(payload.customerId);
     }
-    const role = await this.rolesServices.findOne(payload.roleId[0]);
+    const role = await this.rolesServices.getOneFull(payload.roleId[0]);
     const user = await this._userRepo.save(newUser);
 
     return await this._urService.createOne({ user, role });
   }
 
-  async updateOne(id: number, change: UserUpdateDto) {
+  async updateOne(id: number, change: UserUpdateDto): Promise<UserReadDto> {
     const user: User = await this._userRepo.findOneBy({
       id,
     });
+    if (!user) throw new BadRequestException(`User with id: ${id} not exist.`);
+    if (change.roleId.length > 0) {
+      const role = await this._roleService.getOneFull(change.roleId[0]);
+      await this._urService.updateByUser(user, role);
+    }
     this._userRepo.merge(user, change);
-    return this._userRepo.save(user);
+    return plainToClass(UserReadDto, await this._userRepo.save(user), {
+      excludeExtraneousValues: true,
+    });
   }
 
-  deleteOne(id: number) {
-    return this._userRepo.delete(id);
+  async deleteOne(id: number) {
+    const userExist = await this._userRepo.findOneBy({
+      id,
+    });
+    if (!userExist)
+      throw new BadRequestException(`User with id: ${id} not exist.`);
+    const urExist = await this._urService.deleteByUserId(userExist);
+    console.log(urExist);
+    return await this._userRepo.remove(userExist);
   }
 
   // ORDERS:

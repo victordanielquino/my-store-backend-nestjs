@@ -129,4 +129,21 @@ export class UserRoleService implements UserRoleInterface {
     ];
     return userDto;
   }
+
+  async deleteByUserId(user: User): Promise<UserRole[]> {
+    const resp = await this._urRepo.find({
+      relations: { user: true },
+      where: { user: { id: user.id } },
+    });
+    return await this._urRepo.remove(resp);
+  }
+
+  async updateByUser(user: User, role: Role): Promise<UserRole[]> {
+    const resp = await this._urRepo.find({
+      relations: { user: true },
+      where: { user: { id: user.id } },
+    });
+    resp[0].role = role;
+    return await this._urRepo.save(resp);
+  }
 }

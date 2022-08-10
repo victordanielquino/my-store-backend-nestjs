@@ -16,9 +16,9 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
 import { ProductsService } from '../services/products.service';
 import {
-  CreateProductDto,
-  FilterProductDto,
-  UpdateProductDto,
+  ProductCreateDto,
+  ProductFilterDto,
+  ProductUpdateDto,
 } from '../../../core/models/dtos/product.dto';
 import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/core/guards/roles.guard';
@@ -34,7 +34,7 @@ export class ProductsController {
   @Get()
   @HttpCode(HttpStatus.ACCEPTED)
   @ApiOperation({ summary: 'Lista of products' })
-  getProductsAll(@Query() params: FilterProductDto) {
+  getProductsAll(@Query() params: ProductFilterDto) {
     return this.productService.findAll(params);
   }
 
@@ -45,7 +45,7 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() payload: CreateProductDto) {
+  create(@Body() payload: ProductCreateDto) {
     return this.productService.create(payload);
   }
 
@@ -53,7 +53,7 @@ export class ProductsController {
   @HttpCode(HttpStatus.ACCEPTED)
   update(
     @Param('productId', ParseIntPipe) productId: number,
-    @Body() payload: UpdateProductDto,
+    @Body() payload: ProductUpdateDto,
   ) {
     return this.productService.update(productId, payload);
   }

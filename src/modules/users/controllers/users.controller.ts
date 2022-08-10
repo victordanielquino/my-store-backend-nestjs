@@ -24,34 +24,49 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'Lista de Usuarios!!' }) // SWAGGER: Documentacion por end-point
   @HttpCode(HttpStatus.ACCEPTED)
-  getUsersAll(@Query('limit') limit = 0, @Query('offset') offset = 0) {
+  async getAll(@Query('limit') limit = 0, @Query('offset') offset = 0) {
     return {
       message: 'getAll: Users',
-      data: this.userService.getAll(),
+      data: await this.userService.getAll(),
     };
   }
 
   @Get(':userId')
   @HttpCode(HttpStatus.ACCEPTED)
-  getUserById(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.getOneById(userId);
+  async getOne(@Param('userId', ParseIntPipe) userId: number) {
+    return {
+      message: 'USER: getOne',
+      data: await this.userService.getOneById(userId),
+    };
   }
 
   @Post()
-  create(@Body() payload: UserCreateDto) {
-    return this.userService.createOne(payload);
+  async create(@Body() payload: UserCreateDto) {
+    const data = await this.userService.createOne(payload);
+    return {
+      message: 'USER: createOne',
+      data,
+    };
   }
 
   @Put(':userId')
-  update(
+  async updateOne(
     @Param('userId', ParseIntPipe) userId: number,
     @Body() payload: UserUpdateDto,
   ) {
-    return this.userService.updateOne(userId, payload);
+    const data = await this.userService.updateOne(userId, payload);
+    return {
+      message: 'USER: updateOne',
+      data,
+    };
   }
 
-  @Delete(':userId')
-  delete(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.deleteOne(userId);
+  @Delete(':id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.userService.deleteOne(id);
+    return {
+      message: 'USER: deleteOne',
+      data,
+    };
   }
 }

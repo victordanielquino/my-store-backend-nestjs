@@ -4,6 +4,7 @@ import {
   UserRoleCreateDto,
   UserRoleReadDto,
 } from '../../../../core/models/dtos';
+import { User, UserRole } from '../../../../core/models/entities';
 
 export interface UserRoleInterface {
   getAll(): Promise<UserRoleReadDto[]>;
@@ -11,4 +12,5 @@ export interface UserRoleInterface {
   getAllByRoleId(id: number): Promise<UserReadDto[]>;
   getOneById(id: number): Promise<UserRoleReadDto>;
   createOne(payload: UserRoleCreateDto): Promise<UserReadDto>;
+  deleteByUserId(user: User): Promise<UserRole[]>;
 }

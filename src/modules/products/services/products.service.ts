@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository, FindOptionsWhere } from 'typeorm';
 
 import {
-  CreateProductDto,
-  FilterProductDto,
-  UpdateProductDto,
+  ProductCreateDto,
+  ProductFilterDto,
+  ProductUpdateDto,
 } from '../../../core/models/dtos';
 import { Product } from '../../../core/models/entities';
 import { Brand } from '../../../core/models/entities';
@@ -19,7 +19,7 @@ export class ProductsService {
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
   ) {}
 
-  async findAll(params?: FilterProductDto) {
+  async findAll(params?: ProductFilterDto) {
     if (params) {
       const whereIS: FindOptionsWhere<Product> = {};
       const { limit, offset } = params;
@@ -54,7 +54,7 @@ export class ProductsService {
     return product;
   }
 
-  async create(data: CreateProductDto) {
+  async create(data: ProductCreateDto) {
     const newProduct = this.productRepo.create(data); // se instancia pero no se guarda
     if (data.brandId) {
       const brand = await this.brandsRepo.findOneBy({ id: data.brandId });
@@ -67,7 +67,7 @@ export class ProductsService {
     return this.productRepo.save(newProduct);
   }
 
-  async update(id: number, change: UpdateProductDto) {
+  async update(id: number, change: ProductUpdateDto) {
     const product = await this.productRepo.findOneBy({ id: id });
     if (change.brandId) {
       const brand = await this.brandsRepo.findOneBy({ id: change.brandId });

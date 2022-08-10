@@ -15,9 +15,9 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from '../services/categories.service';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
 import {
-  CreateCategoryDto,
-  UpdateCategoryDto,
-} from '../../../core/models/dtos/category.dto';
+  CategoryCreateDto,
+  CategoryUpdateDto,
+} from '../../../core/models/dtos';
 import { JwtAuthGuard } from 'src/core/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/core/guards/roles.guard';
 import { Roles } from 'src/core/decorators/roles.decorator';
@@ -45,7 +45,7 @@ export class CategoriesController {
 
   @Roles(RoleEnum.ADMIN)
   @Post()
-  create(@Body() payload: CreateCategoryDto) {
+  create(@Body() payload: CategoryCreateDto) {
     return this.categoriesService.create(payload);
   }
 
@@ -53,7 +53,7 @@ export class CategoriesController {
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateCategoryDto,
+    @Body() payload: CategoryUpdateDto,
   ) {
     return this.categoriesService.update(id, payload);
   }

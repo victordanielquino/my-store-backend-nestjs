@@ -10,7 +10,7 @@ import {
 
 import { OrdersService } from '../services/orders.service';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
-import { CreateOrderDto, UpdateOrderDto } from '../../../core/models/dtos';
+import { OrderCreateDto, OrderUpdateDto } from '../../../core/models/dtos';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('CONTROLLER: ORDER') // SWAGGER: AGRUPAR APIS POR TITULO
@@ -29,14 +29,14 @@ export class OrdersController {
   }
 
   @Post()
-  create(@Body() payload: CreateOrderDto) {
+  create(@Body() payload: OrderCreateDto) {
     return this.ordersService.create(payload);
   }
 
   @Put()
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateOrderDto,
+    @Body() payload: OrderUpdateDto,
   ) {
     return this.ordersService.update(id, payload);
   }
